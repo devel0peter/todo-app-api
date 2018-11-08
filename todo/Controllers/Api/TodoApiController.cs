@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using todo.Models;
 
@@ -18,13 +19,28 @@ namespace todo.Controllers.Api
 		}
 
 		[HttpGet]
-		public async Task<List<TodoItem>> GetAll()
+		public async Task<List<TodoWithUserDto>> GetAll()
 		{
-			return await _context
+			var todoItems = await _context
 				.TodoItems
+				.Include(i => i.User)
 				.AsNoTracking()
 				.ToListAsync()
 				.ConfigureAwait(false);
+
+			return todoItems.Select(i => new TodoWithUserDto
+			{
+				Id = i.Id,
+				Name = i.Name,
+				IsComplete = i.IsComplete,
+				User = new UserDto
+				{
+					Id = i.User.Id,
+					FirstName = i.User.FirstName,
+					LastName = i.User.LastName
+				}
+			})
+			.ToList();
 		}
 
 		[HttpGet("{id}", Name = "GetTodo")]

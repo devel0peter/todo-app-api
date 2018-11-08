@@ -1,12 +1,10 @@
 ﻿namespace todo.Models
 {
-	public class TodoItem
+	public class TodoWithUserDto
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public bool IsComplete { get; set; }
-		public int UserId { get; set; }
-
-		public User User { get; set; }
+		public UserDto User { get; set; }
 	}
 }
