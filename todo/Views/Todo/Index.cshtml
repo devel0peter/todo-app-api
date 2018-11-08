@@ -1,4 +1,4 @@
-﻿@model List<TodoItem>
+﻿@model List<TodoWithUserDto>
 
 <h1>Todo List</h1>
 
@@ -7,7 +7,7 @@ Count:@Model.Count
 <ul>
     @foreach (var todoItem in Model)
     {
-        <li>@todoItem.Name (@(todoItem.User?.FirstName ?? "Unknown"))</li>
+        <li>@todoItem.Name (@todoItem.User.FullName)</li>
     }
 </ul>
 

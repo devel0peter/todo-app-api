@@ -23,7 +23,7 @@ namespace todo.Controllers
 			var result = await client.GetAsync("/api/todoapi").ConfigureAwait(false);
 			result.EnsureSuccessStatusCode();
 
-			var todoItems = await result.Content.ReadAsAsync<List<TodoItem>>().ConfigureAwait(false);
+			var todoItems = await result.Content.ReadAsAsync<List<TodoWithUserDto>>().ConfigureAwait(false);
 			return View(todoItems);
 		}
 	}

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using todo.Models;
 
@@ -12,10 +12,12 @@ namespace todo.Controllers.Api
 	public class TodoApiController : ControllerBase
 	{
 		private readonly TodoContext _context;
+		private readonly IMapper _mapper;
 
-		public TodoApiController(TodoContext context)
+		public TodoApiController(TodoContext context, IMapper mapper)
 		{
 			_context = context;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
@@ -28,19 +30,21 @@ namespace todo.Controllers.Api
 				.ToListAsync()
 				.ConfigureAwait(false);
 
-			return todoItems.Select(i => new TodoWithUserDto
-			{
-				Id = i.Id,
-				Name = i.Name,
-				IsComplete = i.IsComplete,
-				User = new UserDto
-				{
-					Id = i.User.Id,
-					FirstName = i.User.FirstName,
-					LastName = i.User.LastName
-				}
-			})
-			.ToList();
+			return _mapper.Map<List<TodoWithUserDto>>(todoItems);
+
+			//return todoItems.Select(i => new TodoWithUserDto
+			//{
+			//	Id = i.Id,
+			//	Name = i.Name,
+			//	IsComplete = i.IsComplete,
+			//	User = new UserDto
+			//	{
+			//		Id = i.User.Id,
+			//		FirstName = i.User.FirstName,
+			//		LastName = i.User.LastName
+			//	}
+			//})
+			//.ToList();
 		}
 
 		[HttpGet("{id}", Name = "GetTodo")]
