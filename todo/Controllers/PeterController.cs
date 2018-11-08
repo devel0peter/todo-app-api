@@ -16,7 +16,7 @@ namespace todo.Controllers
 		[HttpGet("hi/{name}", Name = "hi_name")]
 		public IActionResult SayHello(string name)
 		{
-			return Content($"Hello {name}!");
+			return Content($"Hi {name}!");
 		}
 
 		[HttpGet("data")]

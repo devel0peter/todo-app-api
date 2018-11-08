@@ -1,0 +1,13 @@
+﻿@model List<TodoItem>
+
+<h1>Todo List</h1>
+
+Count:@Model.Count
+
+<ul>
+    @foreach (var todoItem in Model)
+    {
+        <li>@todoItem.Name</li>
+    }
+</ul>
+
